@@ -1,0 +1,19 @@
+apply from: "${rootProject.rootDir}/config/config.gradle"
+project.ext.appConfig project
+
+android {
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project.ext.androidDeps.stdlib
+    implementation project.ext.androidDeps.core_ktx
+    implementation project.ext.androidDeps.appcompat
+
+}

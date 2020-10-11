@@ -1,0 +1,130 @@
+apply from: "${rootProject.rootDir}/config/deps.gradle"
+project.ext {
+
+    compileSdkVersion = 29
+    buildToolsVersion = "29.0.3"
+    minSdkVersion = 22
+    targetSdkVersion = 29
+    applicationId = "com.wx.repos"
+    versionCode = 10000
+    versionName = "1.0.0"
+
+    isApplication = false
+
+    //主应用模块配置
+    appConfig = {
+        app ->
+            app.apply plugin: 'com.android.application'
+            app.apply plugin: 'kotlin-android'
+            app.apply plugin: 'kotlin-android-extensions'
+            app.apply plugin:  'kotlin-kapt'
+            app.description "app"
+            appDefaultConfig app.android
+            dependencyConfig app.dependencies
+    }
+
+    //组件配置，可以进行单独调试
+    moduleConfig = {
+        module ->
+            if (project.ext.isApplication) {
+                module.apply plugin: 'com.android.application'
+                module.description "app"
+            } else {
+                module.apply plugin: 'com.android.library'
+                module.description "lib"
+            }
+            module.apply plugin: 'kotlin-android'
+            module.apply plugin: 'kotlin-android-extensions'
+            module.apply plugin:  'kotlin-kapt'
+            moduleDefaultConfig module.android
+            dependencyConfig module.dependencies
+    }
+
+    //库配置，不能单独调试
+    libConfig = {
+        lib ->
+            lib.apply plugin: 'com.android.library'
+            lib.apply plugin: 'kotlin-android'
+            lib.apply plugin: 'kotlin-android-extensions'
+            lib.apply plugin:  'kotlin-kapt'
+            lib.description "lib"
+            libDefaultConfig lib.android
+            dependencyConfig lib.dependencies
+    }
+
+
+    appDefaultConfig = {
+        extension ->
+            extension.compileSdkVersion project.ext.compileSdkVersion
+            extension.buildToolsVersion project.ext.buildToolsVersion
+            extension.defaultConfig {
+                applicationId project.ext.applicationId
+                minSdkVersion project.ext.minSdkVersion
+                targetSdkVersion project.ext.targetSdkVersion
+                versionCode project.ext.versionCode
+                versionName project.ext.versionName
+                testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+            }
+            extension.compileOptions {
+                sourceCompatibility JavaVersion.VERSION_1_8
+                targetCompatibility JavaVersion.VERSION_1_8
+            }
+    }
+
+    moduleDefaultConfig = {
+        extension ->
+            extension.compileSdkVersion project.ext.compileSdkVersion
+            extension.buildToolsVersion project.ext.buildToolsVersion
+            extension.defaultConfig {
+                minSdkVersion project.ext.minSdkVersion
+                targetSdkVersion project.ext.targetSdkVersion
+                versionCode project.ext.versionCode
+                versionName project.ext.versionName
+
+                testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+            }
+
+            if (project.ext.isApplication) {
+                extension.compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+            }
+            extension.sourceSets {
+                main {
+                    if (project.ext.isApplication) {
+                        manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+                    } else {
+                        manifest.srcFile 'src/main/AndroidManifest.xml'
+                    }
+                }
+            }
+    }
+
+    libDefaultConfig = {
+        extension ->
+            extension.compileSdkVersion project.ext.compileSdkVersion
+            extension.buildToolsVersion project.ext.buildToolsVersion
+            extension.defaultConfig {
+                minSdkVersion project.ext.minSdkVersion
+                targetSdkVersion project.ext.targetSdkVersion
+                versionCode project.ext.versionCode
+                versionName project.ext.versionName
+                testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+            }
+            extension.compileOptions {
+                sourceCompatibility JavaVersion.VERSION_1_8
+                targetCompatibility JavaVersion.VERSION_1_8
+            }
+            extension.kotlinOptions {
+                jvmTarget = 1.8
+            }
+    }
+
+    dependencyConfig = {
+        extension ->
+            extension.testImplementation project.ext.androidDeps.junit
+            extension.androidTestImplementation project.ext.androidDeps.test_ext
+            extension.androidTestImplementation project.ext.androidDeps.espresso
+    }
+}
