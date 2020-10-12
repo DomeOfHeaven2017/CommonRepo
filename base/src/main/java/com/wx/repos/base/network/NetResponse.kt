@@ -1,4 +1,4 @@
-package com.wx.lib_base.network
+package com.wx.repos.base.network
 
 import java.io.IOException
 

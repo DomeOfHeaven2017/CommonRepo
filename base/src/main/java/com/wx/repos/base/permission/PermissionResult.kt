@@ -1,4 +1,4 @@
-package com.wx.lib_base.permissions
+package com.wx.repos.base.permission
 
 /**
  *Created by DomeOfHeaven on 20-4-25

@@ -1,6 +1,5 @@
 package com.wx.repos.base.network
 
-import com.wx.lib_base.network.NetResponseAdapterFactory
 import com.wx.repos.base.common.Constants
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient

@@ -35,7 +35,7 @@ project.ext {
             //Paging
             paging : "androidx.paging:paging-runtime:3.0.0-alpha06",
 
-            appcompat : 'androidx.appcompat:appcompat:1.2.0',
+            appcompat : 'androidx.appcompat:appcompat:1.1.0',
             constraintLayout : 'androidx.constraintlayout:constraintlayout:2.0.1',
             recyclerView : 'androidx.recyclerview:recyclerview:1.2.0-alpha03',
             viewpager2 : 'androidx.viewpager2:viewpager2:1.1.0-alpha01',

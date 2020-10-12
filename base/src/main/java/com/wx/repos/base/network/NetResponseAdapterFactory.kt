@@ -1,4 +1,4 @@
-package com.wx.lib_base.network
+package com.wx.repos.base.network
 
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -17,13 +17,13 @@ class NetResponseAdapterFactory : CallAdapter.Factory() {
             return null
         }
         check(returnType is ParameterizedType) {
-            "return type must be parameterized as Call<NetworkResponse<<Foo>> or Call<NetworkResponse<out Foo>>"
+            "return type must be parameterized as Call<NetResponse<<Foo>> or Call<NetResponse<out Foo>>"
         }
         val responseType = getParameterUpperBound(0, returnType)
         if (getRawType(responseType) != NetResponse::class.java) {
             return null
         }
-        check(responseType is ParameterizedType) { "Response must be parameterized as NetworkResponse<Foo> or NetworkResponse<out Foo>" }
+        check(responseType is ParameterizedType) { "Response must be parameterized as NetResponse<Foo> or NetResponse<out Foo>" }
         val successBodyType = getParameterUpperBound(0, responseType)
         val errorBodyType = getParameterUpperBound(1, responseType)
         val errorBodyConverter =

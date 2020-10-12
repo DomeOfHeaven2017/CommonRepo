@@ -1,5 +1,3 @@
-include ':setting'
-include ':splash'
 include ':base'
 include ':app'
 rootProject.name = "CommonRepo"

@@ -1,4 +1,4 @@
-package com.wx.lib_base.permissions
+package com.wx.repos.base.permission
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

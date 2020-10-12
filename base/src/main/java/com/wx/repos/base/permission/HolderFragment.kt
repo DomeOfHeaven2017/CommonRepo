@@ -1,4 +1,4 @@
-package com.wx.lib_base.permissions
+package com.wx.repos.base.permission
 
 import android.content.pm.PackageManager
 import android.os.Bundle
