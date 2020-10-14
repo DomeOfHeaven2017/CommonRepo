@@ -1,6 +1,5 @@
 apply from: "${rootProject.rootDir}/config/config.gradle"
 project.ext.libConfig project
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     buildTypes {
@@ -30,13 +29,9 @@ dependencies {
     implementation project.ext.thirdDeps.coil
 
 }
-
-publish {
-    userOrg = 'domeofheaven2017'             // Bintray用户名
-    repoName = 'commonrepo'          // Bintray上的新建的仓库名（Repository）
-    groupId = 'com.wx.repos'       // 依赖名 implemention 'x:y:z'中的包名x
-    artifactId = 'base'        // 依赖名implemention 'x:y:z'中的项目名y
-    publishVersion = '1.0.0'          // 依赖名implemention 'x:y:z'中的版本号z
-    desc = 'Common Repository Base'       		// 对该开源组件的说明
-    website = 'https://github.com/DomeOfHeaven2017/CommonRepo'  // VCS地址
+ext {
+    releaseArtifact = 'base'
+    releaseVersion = project.ext.versionName
+    releaseDesc = 'Common Repository Base'
 }
+apply from: "${rootProject.rootDir}/config/publish.gradle"
