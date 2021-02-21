@@ -1,5 +1,5 @@
 apply from: "${rootProject.rootDir}/config/config.gradle"
-project.ext.appConfig project
+appConfig project
 
 android {
     buildTypes {
@@ -11,9 +11,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project.ext.androidDeps.stdlib
-    implementation project.ext.androidDeps.core_ktx
-    implementation project.ext.androidDeps.appcompat
+    implementation androidDeps.kt_stdlib
+    implementation androidDeps.core_ktx
 
 }

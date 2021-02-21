@@ -1,7 +1,7 @@
 package com.wx.repos.base.permission
 
 /**
- *Created by DomeOfHeaven on 20-4-25
+ *Created by wx on 20-4-25
  *Description :
  */
 sealed class PermissionResult {

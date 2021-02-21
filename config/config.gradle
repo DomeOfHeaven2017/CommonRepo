@@ -7,23 +7,34 @@ project.ext {
     targetSdkVersion = 29
     applicationId = "com.wx.repos"
     versionCode = 10000
-    versionName = "1.0.0"
+    versionName = "1.0.2"
 
-    isApplication = false
+    //debug
+    isApplication = true
 
-    //主应用模块配置
+    //App配置
     appConfig = {
         app ->
             app.apply plugin: 'com.android.application'
             app.apply plugin: 'kotlin-android'
-            app.apply plugin: 'kotlin-android-extensions'
             app.apply plugin:  'kotlin-kapt'
             app.description "app"
             appDefaultConfig app.android
-            dependencyConfig app.dependencies
+            dependenciesConfig app.dependencies
     }
 
-    //组件配置，可以进行单独调试
+
+    //lib库配置
+    libConfig = {
+        lib ->
+            lib.apply plugin: 'com.android.library'
+            lib.apply plugin: 'kotlin-android'
+            lib.apply plugin:  'kotlin-kapt'
+            lib.description "lib"
+            libDefaultConfig lib.android
+            libDependenciesConfig lib.dependencies
+    }
+    //module配置
     moduleConfig = {
         module ->
             if (project.ext.isApplication) {
@@ -34,62 +45,80 @@ project.ext {
                 module.description "lib"
             }
             module.apply plugin: 'kotlin-android'
-            module.apply plugin: 'kotlin-android-extensions'
             module.apply plugin:  'kotlin-kapt'
             moduleDefaultConfig module.android
-            dependencyConfig module.dependencies
+            dependenciesConfig module.dependencies
     }
-
-    //库配置，不能单独调试
-    libConfig = {
-        lib ->
-            lib.apply plugin: 'com.android.library'
-            lib.apply plugin: 'kotlin-android'
-            lib.apply plugin: 'kotlin-android-extensions'
-            lib.apply plugin:  'kotlin-kapt'
-            lib.description "lib"
-            libDefaultConfig lib.android
-            dependencyConfig lib.dependencies
-    }
-
 
     appDefaultConfig = {
         extension ->
-            extension.compileSdkVersion project.ext.compileSdkVersion
-            extension.buildToolsVersion project.ext.buildToolsVersion
+            extension.compileSdkVersion androidConfig.compileSdkVersion
+            extension.buildToolsVersion androidConfig.buildToolsVersion
+
             extension.defaultConfig {
-                applicationId project.ext.applicationId
-                minSdkVersion project.ext.minSdkVersion
-                targetSdkVersion project.ext.targetSdkVersion
-                versionCode project.ext.versionCode
-                versionName project.ext.versionName
-                testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+                applicationId androidConfig.applicationId
+                minSdkVersion androidConfig.minSdkVersion
+                targetSdkVersion androidConfig.targetSdkVersion
+                versionCode androidConfig.versionCode
+                versionName androidConfig.versionName
+
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+                extension.compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+                extension.kotlinOptions {
+                    jvmTarget = JavaVersion.VERSION_1_8
+                }
             }
-            extension.compileOptions {
-                sourceCompatibility JavaVersion.VERSION_1_8
-                targetCompatibility JavaVersion.VERSION_1_8
+            kapt {
+                arguments {
+                    arg("AROUTER_MODULE_NAME", project.getName())
+                }
+            }
+    }
+
+    libDefaultConfig = {
+        extension ->
+            extension.compileSdkVersion androidConfig.compileSdkVersion
+            extension.buildToolsVersion androidConfig.buildToolsVersion
+            extension.defaultConfig {
+                minSdkVersion androidConfig.minSdkVersion
+                targetSdkVersion androidConfig.targetSdkVersion
+                versionCode androidConfig.versionCode
+                versionName androidConfig.versionName
+
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             }
     }
 
     moduleDefaultConfig = {
         extension ->
-            extension.compileSdkVersion project.ext.compileSdkVersion
-            extension.buildToolsVersion project.ext.buildToolsVersion
+            extension.compileSdkVersion androidConfig.compileSdkVersion
+            extension.buildToolsVersion androidConfig.buildToolsVersion
             extension.defaultConfig {
-                minSdkVersion project.ext.minSdkVersion
-                targetSdkVersion project.ext.targetSdkVersion
-                versionCode project.ext.versionCode
-                versionName project.ext.versionName
+                minSdkVersion androidConfig.minSdkVersion
+                targetSdkVersion androidConfig.targetSdkVersion
+                versionCode androidConfig.versionCode
+                versionName androidConfig.versionName
 
-                testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             }
-
             if (project.ext.isApplication) {
                 extension.compileOptions {
                     sourceCompatibility JavaVersion.VERSION_1_8
                     targetCompatibility JavaVersion.VERSION_1_8
                 }
+                extension.kotlinOptions {
+                    jvmTarget = JavaVersion.VERSION_1_8
+                }
             }
+            kapt {
+                arguments {
+                    arg("AROUTER_MODULE_NAME", project.getName())
+                }
+            }
+
             extension.sourceSets {
                 main {
                     if (project.ext.isApplication) {
@@ -101,30 +130,21 @@ project.ext {
             }
     }
 
-    libDefaultConfig = {
-        extension ->
-            extension.compileSdkVersion project.ext.compileSdkVersion
-            extension.buildToolsVersion project.ext.buildToolsVersion
-            extension.defaultConfig {
-                minSdkVersion project.ext.minSdkVersion
-                targetSdkVersion project.ext.targetSdkVersion
-                versionCode project.ext.versionCode
-                versionName project.ext.versionName
-                testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-            }
-            extension.compileOptions {
-                sourceCompatibility JavaVersion.VERSION_1_8
-                targetCompatibility JavaVersion.VERSION_1_8
-            }
-            extension.kotlinOptions {
-                jvmTarget = 1.8
-            }
+    libDependenciesConfig = {
+        dependency ->
+            dependency.implementation fileTree(dir: 'libs', include: ['*.jar'])
+            dependency.testImplementation androidDeps.junit
+            dependency.androidTestImplementation androidDeps.junit_ext
+            dependency.androidTestImplementation androidDeps.espresso
     }
 
-    dependencyConfig = {
-        extension ->
-            extension.testImplementation project.ext.androidDeps.junit
-            extension.androidTestImplementation project.ext.androidDeps.test_ext
-            extension.androidTestImplementation project.ext.androidDeps.espresso
+    dependenciesConfig = {
+        dependency ->
+            dependency.implementation fileTree(dir: 'libs', include: ['*.jar'])
+            dependency.kapt thirdDeps.arouter_compiler
+            dependency.implementation thirdDeps.arouter_api
+            dependency.testImplementation androidDeps.junit
+            dependency.androidTestImplementation androidDeps.junit_ext
+            dependency.androidTestImplementation androidDeps.espresso
     }
 }

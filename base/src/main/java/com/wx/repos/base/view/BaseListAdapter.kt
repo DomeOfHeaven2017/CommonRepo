@@ -1,4 +1,4 @@
-package com.wx.repos.base.ui
+package com.wx.repos.base.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 /**
- *  author : DomeOfHeaven
- *  date : 2020/9/30 14:28
- *  desc :
+ *Created by wx on 20-3-29
+ *Description :
  */
 abstract class BaseListAdapter<T> (
     val context : Context,

@@ -13,20 +13,25 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    api project.ext.androidDeps.stdlib
-    api project.ext.androidDeps.core_ktx
-    api project.ext.androidDeps.appcompat
-    api project.ext.androidDeps.recyclerView
+    api androidDeps.kt_stdlib
+    api androidDeps.core_ktx
+    implementation androidDeps.appcompat
+    api androidDeps.recyclerView
+    api androidDeps.activity_ktx
+    api androidDeps.fragment_ktx
+    api androidDeps.lifecycle
+    api androidDeps.lifecycle_viewmodel
+    api androidDeps.lifecycle_livedata
+    api androidDeps.material
 
-    api project.ext.thirdDeps.retrofit
-    implementation project.ext.thirdDeps.moshi_converters
+    api thirdDeps.retrofit
+    implementation thirdDeps.moshi_converter
 
-    implementation (project.ext.thirdDeps.glide) {
+    implementation thirdDeps.coil
+    implementation (thirdDeps.glide) {
         exclude  group : 'androidx.fragment', module : 'fragment'
     }
-    kapt project.ext.thirdDeps.glide_compiler
-
-    implementation project.ext.thirdDeps.coil
+    kapt thirdDeps.glide_kapt
 
 }
 ext {

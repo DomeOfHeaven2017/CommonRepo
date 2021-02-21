@@ -3,9 +3,8 @@ package com.wx.repos.base.util
 import android.util.Log
 
 /**
- *  author : DomeOfHeaven
- *  date : 2020/9/30 14:46
- *  desc :
+ *Created by wx on 19-7-17
+ *Description :
  */
 object LogUtil {
 
@@ -13,6 +12,7 @@ object LogUtil {
      * 日志记录开关
      */
     const val WRITE_LOG_ENABLE = true
+    const val LOGCAT_DEBUG = false
 
     const val TAG = "LogUtil"
     const val VERBOSE : Int = 2
@@ -55,7 +55,7 @@ object LogUtil {
 
     fun log(priority : Int,TAG : String,msg : String){
 
-        if(priority < ERROR){
+        if( ( priority < ERROR ) and LOGCAT_DEBUG){
             return
         }
         if (WRITE_LOG_ENABLE) {

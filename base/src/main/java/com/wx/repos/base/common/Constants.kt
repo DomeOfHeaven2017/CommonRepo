@@ -13,6 +13,7 @@ object Constants {
     const val HTTP_CONNECT_TIME_OUT = 60L
     const val HTTP_READ_TIME_OUT = 100L
     const val HTTP_CONNECTION_POOL = 32
+    const val HTTP_ALIVE_DURATION = 5*60L
 
     //图片加载相关
     const val THUMBNAIL_FACTOR = .2f

@@ -6,11 +6,10 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- *  author : DomeOfHeaven
- *  date : 2020/9/30 14:31
- *  desc :
+ *Created by wx on 19-7-14
+ *Description :
  */
-class PreferenceUtils<T>(private val context: Context, private val table: String, private val key: String, private val default: T) :
+class PreferenceUtils<T>(private val context: Context,private val table: String, private val key: String, private val default: T) :
     ReadWriteProperty<Any, T> {
 
     private val preference: SharedPreferences by lazy {
@@ -28,7 +27,6 @@ class PreferenceUtils<T>(private val context: Context, private val table: String
     /**
      * 根据Key获取值
      */
-    @Suppress("UNCHECKED_CAST")
     private fun getValueByKey(key: String, default: T): T = with(preference) {
         val value = when (default) {
             is Boolean -> getBoolean(key, default)

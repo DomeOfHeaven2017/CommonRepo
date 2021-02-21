@@ -1,13 +1,12 @@
-package com.wx.repos.base.ui
+package com.wx.repos.base.view
 
 import android.view.View
 import androidx.collection.SparseArrayCompat
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- *  author : DomeOfHeaven
- *  date : 2020/9/30 14:53
- *  desc :
+ *Created by wx on 19-7-8
+ *Description :
  */
 open class BaseViewHolder(private val item : View) : RecyclerView.ViewHolder(item) {
 
@@ -17,8 +16,8 @@ open class BaseViewHolder(private val item : View) : RecyclerView.ViewHolder(ite
     fun < V : View> getView(id : Int): V{
         var view : View? = mViews[id]
         if(view == null){
-            view = item.findViewById(id)
-            mViews.put(id,view)
+         view = item.findViewById(id)
+         mViews.put(id,view)
         }
         return view as V
     }
