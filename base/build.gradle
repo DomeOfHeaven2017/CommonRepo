@@ -34,9 +34,3 @@ dependencies {
     kapt thirdDeps.glide_kapt
 
 }
-ext {
-    releaseArtifact = 'base'
-    releaseVersion = project.ext.versionName
-    releaseDesc = 'Common Repository Base'
-}
-apply from: "${rootProject.rootDir}/config/publish.gradle"
